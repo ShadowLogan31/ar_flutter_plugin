@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:ar_flutter_plugin/managers/ar_object_manager.dart';
 import 'package:ar_flutter_plugin/models/ar_anchor.dart';
 import 'package:ar_flutter_plugin/models/ar_node.dart';
 import 'package:ar_flutter_plugin/utils/json_converters.dart';
