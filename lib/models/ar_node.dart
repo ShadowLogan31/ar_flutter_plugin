@@ -103,10 +103,22 @@ class ARNode {
   static const _matrixValueNotifierConverter = MatrixValueNotifierConverter();
 
   /// change parent of node
-  Future<bool?> setParent(ParentType type, ARNode parent) async {
+  Future<bool?> setParent(ParentType type, {ARNode parent}) async {
     try {
-        return await manager.channel.invokeMethod<bool>('setParent',
-            {'node': this.toMap(), 'type': type.index, 'parent': parent.toMap()});
+      switch (type.index) {
+        case 0:
+          return await manager.channel.invokeMethod<bool>('setParent',
+              {'node': this.toMap(), 'type': type.index, 'parent': null});
+        case 1:
+          if (parent != null) {
+            return await manager.channel.invokeMethod<bool>('setParent',
+                {'node': this.toMap(), 'type': type.index, 'parent': parent.toMap()});
+          } else {
+            print("No parent provided");
+          }
+        case 2:
+          return await manager.channel.invokeMethod<bool>('setParent',
+              {'node': this.toMap(), 'type': type.index, 'parent': null});
       }
     } on PlatformException catch (e) {
       return false;
