@@ -123,29 +123,6 @@ class ARNode {
     }
   }
 
-  Future<void> _platformCallHandler(MethodCall call) {
-    if (debug) {
-      print('_platformCallHandler call ${call.method} ${call.arguments}');
-    }
-    try {
-      switch (call.method) {
-        case 'onError':
-          if (onError != null) {
-            onError(call.arguments[0]);
-            print(call.arguments);
-          }
-          break;
-        default:
-          if (debug) {
-            print('Unimplemented method ${call.method} ');
-          }
-      }
-    } catch (e) {
-      print('Error caught: ' + e.toString());
-    }
-    return Future.value();
-  }
-
   Map<String, dynamic> toMap() => <String, dynamic>{
         'type': type.index,
         'uri': uri,
