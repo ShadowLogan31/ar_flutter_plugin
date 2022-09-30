@@ -40,7 +40,7 @@ class ARObjectManager {
     }
   }
 
-  get MethodChannel _channel => _channel;
+  get MethodChannel channel => _channel;
 
   Future<void> _platformCallHandler(MethodCall call) {
     if (debug) {
