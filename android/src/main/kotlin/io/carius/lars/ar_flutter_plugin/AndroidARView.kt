@@ -173,6 +173,23 @@ internal class AndroidARView(
                                 }
                             }
                         }
+                        "setParent" -> {
+                            val dict_node: HashMap<String, Any>? = call.argument<HashMap<String, Any>>("node")
+                            val dict_parent: HashMap<String, Any>? = call.argument<HashMap<String, Any>>("parent")
+                            val nodeType: Int? = call.argument<Int>("type")
+                            dict_node?.let{ node ->
+                                nodeType.let{ type ->
+                                    dict_parent.let{ parent ->
+                                        setParent(node, type, parent).thenAccept{status: Boolean ->
+                                            result.success(status)
+                                        }.exceptionally { throwable ->
+                                            result.error("e", throwable.message, throwable.stackTrace)
+                                            null
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         "addNodeToPlaneAnchor" -> {
                             val dict_node: HashMap<String, Any>? = call.argument<HashMap<String, Any>>("node")
                             val dict_anchor: HashMap<String, Any>? = call.argument<HashMap<String, Any>>("anchor")
@@ -789,6 +806,52 @@ internal class AndroidARView(
                                 completableFutureSuccess.completeExceptionally(throwable)
                                 null // return null because java expects void return (in java, void has no instance, whereas in Kotlin, this closure returns a Unit which has one instance)
                             }
+                }
+                else -> {
+                    completableFutureSuccess.complete(false)
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            completableFutureSuccess.completeExceptionally(e)
+        }
+
+        return completableFutureSuccess
+    }
+
+    private fun setParent(dict_node: HashMap<String, Any>, dict_parent: HashMap<String, Any>? = null): CompletableFuture<Boolean>{
+        val completableFutureSuccess: CompletableFuture<Boolean> = CompletableFuture()
+
+        try {
+            when (dict_node["type"] as Int) {
+                0 -> { 
+                    val node = arSceneView.scene.findByName(dict_node["name"])
+                    node?.let {
+                        val camera = arSceneView.arFrame?.camera?
+                        it.setParent(camera)
+                        //it.worldScale = transformTriple.first
+                        //it.worldPosition = transformTriple.second
+                        //it.worldRotation = transformTriple.third
+                    }
+                }
+                1 -> {
+                    val node = arSceneView.scene.findByName(dict_node["name"])
+                    node?.let {
+                        val parent_node = arSceneView.scene.findByName(parent_node["name"])
+                        it.setParent(parent_node)
+                        //it.worldScale = transformTriple.first
+                        //it.worldPosition = transformTriple.second
+                        //it.worldRotation = transformTriple.third
+                    }
+                }
+                2 -> {
+                    val node = arSceneView.scene.findByName(dict_node["name"])
+                    node?.let {
+                        val parent_node = arSceneView.scene.findByName(parent_node["name"])
+                        it.setParent(arSceneView.scene)
+                        //it.worldScale = transformTriple.first
+                        //it.worldPosition = transformTriple.second
+                        //it.worldRotation = transformTriple.third
+                    }
                 }
                 else -> {
                     completableFutureSuccess.complete(false)

@@ -6,6 +6,7 @@ import 'package:vector_math/vector_math_64.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:math' as math;
 import 'package:ar_flutter_plugin/datatypes/node_types.dart';
+import 'package:ar_flutter_plugin/datatypes/parent_types.dart';
 
 /// ARNode is the model class for node-tree objects.
 /// It encapsulates the position, rotations, and other transforms of a node, which define a coordinate system.
@@ -14,6 +15,7 @@ class ARNode {
   ARNode({
     required this.type,
     required this.uri,
+    required this.manager,
     String? name,
     Vector3? position,
     Vector3? scale,
@@ -21,10 +23,13 @@ class ARNode {
     Vector3? eulerAngles,
     Matrix4? transformation,
     Map<String, dynamic>? data,
-  })  : name = name ?? UniqueKey().toString(),
+  }) : name = name ?? UniqueKey().toString(),
         transformNotifier = ValueNotifier(createTransformMatrix(
             transformation, position, scale, rotation, eulerAngles)),
         data = data ?? null;
+
+  /// Platform channel used for communication from and to [ARNode]
+  ARObjectManager manager;
 
   /// Specifies the receiver's [NodeType]
   NodeType type;
@@ -95,6 +100,40 @@ class ARNode {
   Map<String, dynamic>? data;
 
   static const _matrixValueNotifierConverter = MatrixValueNotifierConverter();
+
+  /// change parent of node
+  Future<bool?> setParent(ParentType type, ARNode parent) async {
+    try {
+        return await manager.channel.invokeMethod<bool>('setParent',
+            {'node': this.toMap(), 'type': type.index, 'parent': parent.toMap()});
+      }
+    } on PlatformException catch (e) {
+      return false;
+    }
+  }
+
+  Future<void> _platformCallHandler(MethodCall call) {
+    if (debug) {
+      print('_platformCallHandler call ${call.method} ${call.arguments}');
+    }
+    try {
+      switch (call.method) {
+        case 'onError':
+          if (onError != null) {
+            onError(call.arguments[0]);
+            print(call.arguments);
+          }
+          break;
+        default:
+          if (debug) {
+            print('Unimplemented method ${call.method} ');
+          }
+      }
+    } catch (e) {
+      print('Error caught: ' + e.toString());
+    }
+    return Future.value();
+  }
 
   Map<String, dynamic> toMap() => <String, dynamic>{
         'type': type.index,
