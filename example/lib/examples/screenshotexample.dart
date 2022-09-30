@@ -124,6 +124,7 @@ class _ScreenshotWidgetState extends State<ScreenshotWidget> {
         anchors.add(newAnchor);
         // Add note to anchor
         var newNode = ARNode(
+            manager: arObjectManager,
             type: NodeType.webGLB,
             uri:
                 "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Duck/glTF-Binary/Duck.glb",
