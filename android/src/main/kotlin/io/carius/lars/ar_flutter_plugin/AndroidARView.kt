@@ -176,7 +176,7 @@ internal class AndroidARView(
                         "setParent" -> {
                             val dict_node: HashMap<String, Any>? = call.argument<HashMap<String, Any>>("node")
                             val dict_parent: HashMap<String, Any>? = call.argument<HashMap<String, Any>>("parent")
-                            val nodeType: Int = call.argument<Int>("type")
+                            val nodeType: Int? = call.argument<Int?>("type")
                             dict_node?.let{ node ->
                                 nodeType.let{ type ->
                                         setParent(node, type, dict_parent).thenAccept{status: Boolean ->
@@ -816,13 +816,13 @@ internal class AndroidARView(
         return completableFutureSuccess
     }
 
-    private fun setParent(dict_node: HashMap<String, Any>, type: Int, dict_parent: HashMap<String, Any>? = null): CompletableFuture<Boolean>{
+    private fun setParent(dict_node: HashMap<String, Any>, type: Int?, dict_parent: HashMap<String, Any>? = null): CompletableFuture<Boolean>{
         val completableFutureSuccess: CompletableFuture<Boolean> = CompletableFuture()
 
         try {
-            when (type) {
+            when (type!) {
                 0 -> { 
-                    val node = arSceneView.scene.findByName(dict_node["name"] as Node)
+                    val node = arSceneView.scene.findByName(dict_node["name"] as String) as Node
                     node?.let {
                         val camera = arSceneView.arFrame?.camera
                         it.setParent(camera)
@@ -832,9 +832,9 @@ internal class AndroidARView(
                     }
                 }
                 1 -> {
-                    val node = arSceneView.scene.findByName(dict_node["name"]) as Node
+                    val node = arSceneView.scene.findByName(dict_node["name"] as String) as Node
                     node?.let {
-                        val parent_node = arSceneView.scene.findByName(parent_node["name"]) as NodeParent
+                        val parent_node = arSceneView.scene.findByName(parent_node["name"] as String) as Node
                         it.setParent(parent_node)
                         //it.worldScale = transformTriple.first
                         //it.worldPosition = transformTriple.second
@@ -842,9 +842,9 @@ internal class AndroidARView(
                     }
                 }
                 2 -> {
-                    val node = arSceneView.scene.findByName(dict_node["name"]) as Node
+                    val node = arSceneView.scene.findByName(dict_node["name"] as String) as Node
                     node?.let {
-                        val parent_node = arSceneView.scene.findByName(parent_node["name"]) as NodeParent
+                        val parent_node = arSceneView.scene.findByName(parent_node["name"] as String) as Node
                         it.setParent(arSceneView.scene)
                         //it.worldScale = transformTriple.first
                         //it.worldPosition = transformTriple.second
