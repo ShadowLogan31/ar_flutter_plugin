@@ -16,7 +16,7 @@ class ARNode {
   ARNode({
     required this.type,
     required this.uri,
-    required this.manager,
+    required this.channel,
     String? name,
     Vector3? position,
     Vector3? scale,
