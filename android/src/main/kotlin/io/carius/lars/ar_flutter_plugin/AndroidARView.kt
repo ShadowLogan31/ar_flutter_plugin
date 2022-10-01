@@ -840,7 +840,8 @@ internal class AndroidARView(
                     val nodeName: String? = dict_node?.get("name") as? String
                     val node = arSceneView.scene.findByName(nodeName) as Node
                     node?.let {
-                        arSceneView.arFrame?.camera.addChild(node)
+                        arSceneView.arFrame?.camera?.addChild(node)
+                        node.localPosition = Vector3.new(0, 0, -1f)
                         // arSceneView.scene.addOnUpdateListener { frameTime ->
                         //     trackCamera(node);
                         // }
@@ -872,29 +873,29 @@ internal class AndroidARView(
         return completableFutureSuccess
     }
 
-    private fun trackCamera(node: Node) {
-        if (arSceneView.arFrame?.camera?.trackingState == TrackingState.TRACKING) {
-            val hitTest =
-                arSceneView.arFrame?.hitTest(arSceneView.width / 2f, arSceneView.height / 2f)
-            val hitTestIterator = hitTest!.iterator()
-            if (hitTestIterator.hasNext()) {
-                if (!placed) {
-                    val hitResult = hitTestIterator.next()
-                    val anchor = hitResult.createAnchor()
-                    if (anchorNode == null) {
-                        anchorNode = AnchorNode()
-                        anchorNode?.setParent(arSceneView.scene)
-                        val transformableNode =
-                            TransformableNode(arSceneView.arFrame?.transformationSystem)
-                        transformableNode?.setParent(anchorNode)
-                        node.setParent
-                    }
-                    anchorNode?.anchor?.detach()
-                    anchorNode?.anchor = anchor
-                }
-            }
-        }
-    }
+    // private fun trackCamera(node: Node) {
+    //     if (arSceneView.arFrame?.camera?.trackingState == TrackingState.TRACKING) {
+    //         val hitTest =
+    //             arSceneView.arFrame?.hitTest(arSceneView.width / 2f, arSceneView.height / 2f)
+    //         val hitTestIterator = hitTest!.iterator()
+    //         if (hitTestIterator.hasNext()) {
+    //             if (!placed) {
+    //                 val hitResult = hitTestIterator.next()
+    //                 val anchor = hitResult.createAnchor()
+    //                 if (anchorNode == null) {
+    //                     anchorNode = AnchorNode()
+    //                     anchorNode?.setParent(arSceneView.scene)
+    //                     val transformableNode =
+    //                         TransformableNode(arSceneView.arFrame?.transformationSystem)
+    //                     transformableNode?.setParent(anchorNode)
+    //                     node.setParent
+    //                 }
+    //                 anchorNode?.anchor?.detach()
+    //                 anchorNode?.anchor = anchor
+    //             }
+    //         }
+    //     }
+    // }
 
     private fun transformNode(name: String, transform: ArrayList<Double>) {
         val node = arSceneView.scene.findByName(name)
