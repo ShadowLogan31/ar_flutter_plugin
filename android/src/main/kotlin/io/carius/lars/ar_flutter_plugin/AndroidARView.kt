@@ -18,6 +18,7 @@ import com.google.ar.core.exceptions.*
 import com.google.ar.sceneform.*
 import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.ux.*
+import com.google.ar.sceneform.collision
 import io.carius.lars.ar_flutter_plugin.Serialization.deserializeMatrix4
 import io.carius.lars.ar_flutter_plugin.Serialization.serializeAnchor
 import io.carius.lars.ar_flutter_plugin.Serialization.serializeHitResult
@@ -840,11 +841,12 @@ internal class AndroidARView(
                     val nodeName: String? = dict_node?.get("name") as? String
                     val node = arSceneView.scene.findByName(nodeName) as Node
                     node?.let {
-                        arSceneView.arFrame?.camera?.addChild(node)
-                        node.localPosition = Vector3.new(0, 0, -1f)
-                        // arSceneView.scene.addOnUpdateListener { frameTime ->
-                        //     trackCamera(node);
-                        // }
+                        arSceneView.scene.addOnUpdateListener { frameTime ->
+                            val camera = arSceneView.arFrame?.camera as Camera
+                            Ray ray = camera.screenPointToRay(1000 / 2f, 1920 / 2f)
+                            Vector3 newPos = ray.getPoint(1f)
+                            node.localPosition = newPos
+                        }
                         //it.worldScale = transformTriple.first
                         //it.worldPosition = transformTriple.second
                         //it.worldRotation = transformTriple.third
