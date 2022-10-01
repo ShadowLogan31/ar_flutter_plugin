@@ -825,7 +825,7 @@ internal class AndroidARView(
                     val nodeName: String? = dict_node?.get("name") as? String
                     val node = arSceneView.scene.findByName(nodeName) as Node
                     node?.let {
-                        val parentName: String? = parent_node?.get("name") as? String
+                        val parentName: String? = dict_parent?.get("name") as? String
                         val parent_node = arSceneView.scene.findByName(parentName) as Node
                         it.setParent(arSceneView.scene)
                         //it.worldScale = transformTriple.first
