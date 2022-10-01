@@ -176,7 +176,7 @@ internal class AndroidARView(
                         "setParent" -> {
                             val dict_node: HashMap<String, Any>? = call.argument<HashMap<String, Any>>("node")
                             val dict_parent: HashMap<String, Any>? = call.argument<HashMap<String, Any>>("parent")
-                            val nodeType: Int? = call.argument<Int>("type")
+                            val nodeType: Int = call.argument<Int>("type")
                             dict_node?.let{ node ->
                                 nodeType.let{ type ->
                                         setParent(node, type, dict_parent).thenAccept{status: Boolean ->
