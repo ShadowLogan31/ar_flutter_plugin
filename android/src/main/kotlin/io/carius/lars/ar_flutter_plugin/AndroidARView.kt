@@ -838,11 +838,7 @@ internal class AndroidARView(
                     val node = arSceneView.scene.findByName(nodeName) as Node
                     node?.let {
                         arSceneView.scene.addOnUpdateListener { frameTime ->
-                            Camera camera = arSceneView.arFrame?.camera
-                            Ray ray = camera.screenPointToRay(v: 1000 / 2f, 1920 / 2f)
-                            Vector3 newPos = ray.getPoint(v: 1f)
-
-                            node.localPosition = newPos
+                            trackCamera(node);
                         }
                         //it.worldScale = transformTriple.first
                         //it.worldPosition = transformTriple.second
@@ -870,6 +866,30 @@ internal class AndroidARView(
         }
 
         return completableFutureSuccess
+    }
+
+    private fun trackCamera(node: Node) {
+        if (arSceneView.arFrame?.camera.trackingState == TrackingState.TRACKING) {
+            val hitTest =
+                frame.hitTest(arSceneView.width / 2f, arSceneView.height / 2f)
+            val hitTestIterator = hitTest.iterator()
+            if (hitTestIterator.hasNext()) {
+                if (!placed) {
+                    val hitResult = hitTestIterator.next()
+                    val anchor = hitResult.createAnchor()
+                    if (anchorNode == null) {
+                        anchorNode = AnchorNode()
+                        anchorNode?.setParent(arSceneView.scene)
+                        transformableNode =
+                            DragTransformableNode(arSceneView.arFrame?.transformationSystem)
+                        transformableNode?.setParent(anchorNode)
+                        node.setParent
+                    }
+                    anchorNode?.anchor?.detach()
+                    anchorNode?.anchor = anchor
+                }
+            }
+        }
     }
 
     private fun transformNode(name: String, transform: ArrayList<Double>) {
