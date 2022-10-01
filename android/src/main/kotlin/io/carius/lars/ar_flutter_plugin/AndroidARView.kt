@@ -91,6 +91,9 @@ internal class AndroidARView(
     private lateinit var sceneUpdateListener: com.google.ar.sceneform.Scene.OnUpdateListener
     private lateinit var onNodeTapListener: com.google.ar.sceneform.Scene.OnPeekTouchListener
 
+    private var anchorNode = null
+    private var placed = false; 
+
     // Method channel handlers
     private val onSessionMethodCall =
             object : MethodChannel.MethodCallHandler {
@@ -869,9 +872,9 @@ internal class AndroidARView(
     }
 
     private fun trackCamera(node: Node) {
-        if (arSceneView.arFrame?.camera.trackingState == TrackingState.TRACKING) {
+        if (arSceneView.arFrame?.camera?.trackingState == TrackingState.TRACKING) {
             val hitTest =
-                frame.hitTest(arSceneView.width / 2f, arSceneView.height / 2f)
+                arSceneView.arFrame?.hitTest(arSceneView.width / 2f, arSceneView.height / 2f)
             val hitTestIterator = hitTest.iterator()
             if (hitTestIterator.hasNext()) {
                 if (!placed) {
