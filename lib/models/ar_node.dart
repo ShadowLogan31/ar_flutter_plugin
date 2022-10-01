@@ -110,11 +110,10 @@ class ARNode {
         case 0 | 2:
           return await channel.invokeMethod<bool>('setParent',
               {'node': this.toMap(), 'type': type.index, 'parent': null});
-          break;
         case 1:
           if (parent != null) {
             return await channel.invokeMethod<bool>('setParent',
-                {'node': this.toMap(), 'type': type.index, 'parent': parent.toMap()});
+                {'node': this.toMap(), 'type': type.index, 'parent': parent!.toMap()});
           } else {
             print("No parent provided");
             break;
