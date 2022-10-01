@@ -91,7 +91,7 @@ internal class AndroidARView(
     private lateinit var sceneUpdateListener: com.google.ar.sceneform.Scene.OnUpdateListener
     private lateinit var onNodeTapListener: com.google.ar.sceneform.Scene.OnPeekTouchListener
 
-    private var anchorNode = null
+    private val anchorNode = null
     private var placed = false; 
 
     // Method channel handlers
@@ -875,7 +875,7 @@ internal class AndroidARView(
         if (arSceneView.arFrame?.camera?.trackingState == TrackingState.TRACKING) {
             val hitTest =
                 arSceneView.arFrame?.hitTest(arSceneView.width / 2f, arSceneView.height / 2f)
-            val hitTestIterator = hitTest.iterator()
+            val hitTestIterator = hitTest!.iterator()
             if (hitTestIterator.hasNext()) {
                 if (!placed) {
                     val hitResult = hitTestIterator.next()
@@ -883,8 +883,8 @@ internal class AndroidARView(
                     if (anchorNode == null) {
                         anchorNode = AnchorNode()
                         anchorNode?.setParent(arSceneView.scene)
-                        transformableNode =
-                            DragTransformableNode(arSceneView.arFrame?.transformationSystem)
+                        val transformableNode =
+                            TransformableNode(arSceneView.arFrame?.transformationSystem)
                         transformableNode?.setParent(anchorNode)
                         node.setParent
                     }
