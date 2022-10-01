@@ -72,7 +72,7 @@ internal class AndroidARView(
     private val objectManagerChannel: MethodChannel = MethodChannel(messenger, "arobjects_$id")
     private val anchorManagerChannel: MethodChannel = MethodChannel(messenger, "aranchors_$id")
     // UI variables
-    private lateinit var arSceneView: ArSceneView
+    private lateinit var arSceneView: com.google.ar.sceneform.ArSceneView
     private lateinit var transformationSystem: TransformationSystem
     private var showFeaturePoints = false
     private var showAnimatedGuide = false
@@ -315,7 +315,7 @@ internal class AndroidARView(
         try {
             onPause()
             onDestroy()
-            ArSceneView.destroyAllResources()
+            com.google.ar.sceneform.ArSceneView.destroyAllResources()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -326,7 +326,7 @@ internal class AndroidARView(
         Log.d(TAG, "Initializing AndroidARView")
         viewContext = context
 
-        arSceneView = ArSceneView(context)
+        arSceneView = com.google.ar.sceneform.ArSceneView(context)
 
         setupLifeCycle(context)
 
@@ -842,7 +842,7 @@ internal class AndroidARView(
                     val node = arSceneView.scene.findByName(nodeName) as Node
                     node?.let {
                         arSceneView.scene.addOnUpdateListener { frameTime ->
-                            val camera: com.google.ar.sceneform.Camera = arSceneView.getScene().getCamera()
+                            val camera = arSceneView.scene.camera
                             val ray = camera.screenPointToRay(1000 / 2f, 1920 / 2f) as Ray
                             val newPos = ray.getPoint(1f) as Vector3
                             node.localPosition = newPos
