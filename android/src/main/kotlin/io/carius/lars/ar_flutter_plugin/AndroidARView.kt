@@ -179,14 +179,12 @@ internal class AndroidARView(
                             val nodeType: Int? = call.argument<Int>("type")
                             dict_node?.let{ node ->
                                 nodeType.let{ type ->
-                                    dict_parent.let{ parent ->
-                                        setParent(node, type, parent).thenAccept{status: Boolean ->
+                                        setParent(node, type, dict_parent).thenAccept{status: Boolean ->
                                             result.success(status)
                                         }.exceptionally { throwable ->
                                             result.error("e", throwable.message, throwable.stackTrace)
                                             null
                                         }
-                                    }
                                 }
                             }
                         }
@@ -818,7 +816,7 @@ internal class AndroidARView(
         return completableFutureSuccess
     }
 
-    private fun setParent(dict_node: HashMap<String, Any>, type: Int dict_parent: HashMap<String, Any>? = null): CompletableFuture<Boolean>{
+    private fun setParent(dict_node: HashMap<String, Any>, type: Int, dict_parent: HashMap<String, Any>? = null): CompletableFuture<Boolean>{
         val completableFutureSuccess: CompletableFuture<Boolean> = CompletableFuture()
 
         try {
