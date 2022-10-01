@@ -818,11 +818,11 @@ internal class AndroidARView(
         return completableFutureSuccess
     }
 
-    private fun setParent(dict_node: HashMap<String, Any>, dict_parent: HashMap<String, Any>? = null): CompletableFuture<Boolean>{
+    private fun setParent(dict_node: HashMap<String, Any>, type: Int dict_parent: HashMap<String, Any>? = null): CompletableFuture<Boolean>{
         val completableFutureSuccess: CompletableFuture<Boolean> = CompletableFuture()
 
         try {
-            when (dict_node["type"] as Int) {
+            when (type) {
                 0 -> { 
                     val node = arSceneView.scene.findByName(dict_node["name"])
                     node?.let {
