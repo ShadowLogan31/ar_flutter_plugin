@@ -107,13 +107,13 @@ class ARNode {
   Future<bool?> setParent(ParentType type, {ARNode? parent}) async {
     try {
       switch (type.index) {
-        case 0:
+        case 0 | 1:
+          return await channel.invokeMethod<bool>('setParent',
+              {'node': this.toMap(), 'type': type.index, 'parent': null});
+        case 2:
           if (parent != null) {
             return await channel.invokeMethod<bool>('setParent',
                 {'node': this.toMap(), 'type': type.index, 'parent': parent!.toMap()});
-        case 1 | 2:
-          return await channel.invokeMethod<bool>('setParent',
-              {'node': this.toMap(), 'type': type.index, 'parent': null});
           } else {
             print("No parent provided");
             break;
