@@ -1,5 +1,6 @@
 // The code in this file is adapted from Oleksandr Leuschenko' ARKit Flutter Plugin (https://github.com/olexale/arkit_flutter_plugin)
 
+import 'package:flutter/services.dart';
 import 'package:ar_flutter_plugin/managers/ar_object_manager.dart';
 import 'package:ar_flutter_plugin/utils/json_converters.dart';
 import 'package:flutter/widgets.dart';
@@ -106,9 +107,11 @@ class ARNode {
   Future<bool?> setParent(ParentType type, {ARNode parent}) async {
     try {
       switch (type.index) {
-        case 0, 2:
+        case 0:
+        case 2:
           return await channel.invokeMethod<bool>('setParent',
               {'node': this.toMap(), 'type': type.index, 'parent': null});
+          break;
         case 1:
           if (parent != null) {
             return await channel.invokeMethod<bool>('setParent',
@@ -117,6 +120,8 @@ class ARNode {
             print("No parent provided");
             break;
           }
+        default: 
+          print("ERROR");
       }
     } on PlatformException catch (e) {
       return false;
