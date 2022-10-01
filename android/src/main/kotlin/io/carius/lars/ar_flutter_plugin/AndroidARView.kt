@@ -842,9 +842,9 @@ internal class AndroidARView(
                     val node = arSceneView.scene.findByName(nodeName) as Node
                     node?.let {
                         arSceneView.scene.addOnUpdateListener { frameTime ->
-                            val camera = arSceneView.arFrame?.camera as Camera
-                            Ray ray = camera.screenPointToRay(1000 / 2f, 1920 / 2f)
-                            Vector3 newPos = ray.getPoint(1f)
+                            val camera = arSceneView.arFrame?.camera as com.google.ar.sceneform.Camera
+                            val ray = camera.screenPointToRay(1000 / 2f, 1920 / 2f) as Ray
+                            val newPos = ray.getPoint(1f) as Vector3
                             node.localPosition = newPos
                         }
                         //it.worldScale = transformTriple.first
