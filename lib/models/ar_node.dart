@@ -107,8 +107,7 @@ class ARNode {
   Future<bool?> setParent(ParentType type, {ARNode parent}) async {
     try {
       switch (type.index) {
-        case 0:
-        case 2:
+        case 0 | 2:
           return await channel.invokeMethod<bool>('setParent',
               {'node': this.toMap(), 'type': type.index, 'parent': null});
           break;
