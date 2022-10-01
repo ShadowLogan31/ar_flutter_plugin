@@ -824,7 +824,7 @@ internal class AndroidARView(
                 0 -> { 
                     val node = arSceneView.scene.findByName(dict_node["name"] as Node)
                     node?.let {
-                        val camera = arSceneView.arFrame.camera
+                        val camera = arSceneView.arFrame!.camera
                         it.setParent(camera)
                         //it.worldScale = transformTriple.first
                         //it.worldPosition = transformTriple.second
