@@ -837,13 +837,13 @@ internal class AndroidARView(
                     val nodeName: String? = dict_node?.get("name") as? String
                     val node = arSceneView.scene.findByName(nodeName) as Node
                     node?.let {
-                        arSceneView.scene.addOnUpdateListener(frameTime -> {
+                        arSceneView.scene.addOnUpdateListener { frameTime ->
                             Camera camera = arSceneView.arFrame?.camera
                             Ray ray = camera.screenPointToRay(v: 1000 / 2f, 1920 / 2f)
                             Vector3 newPos = ray.getPoint(v: 1f)
 
                             node.localPosition = newPos
-                        })
+                        }
                         //it.worldScale = transformTriple.first
                         //it.worldPosition = transformTriple.second
                         //it.worldRotation = transformTriple.third
