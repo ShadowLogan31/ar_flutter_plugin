@@ -104,7 +104,7 @@ class ARNode {
   static const _matrixValueNotifierConverter = MatrixValueNotifierConverter();
 
   /// change parent of node
-  Future<bool?> setParent(ParentType type, {ARNode parent}) async {
+  Future<bool?> setParent(ParentType type, {ARNode? parent}) async {
     try {
       switch (type.index) {
         case 0 | 2:
