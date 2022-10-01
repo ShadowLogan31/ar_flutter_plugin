@@ -244,7 +244,7 @@ class _CloudAnchorWidgetState extends State<CloudAnchorWidget> {
         this.anchors.add(newAnchor);
         // Add note to anchor
         var newNode = ARNode(
-            manager: arObjectManager,
+            channel: arObjectManager.channel,
             type: NodeType.webGLB,
             uri:
                 "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Duck/glTF-Binary/Duck.glb",

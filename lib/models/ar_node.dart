@@ -30,7 +30,7 @@ class ARNode {
         data = data ?? null;
 
   /// Platform channel used for communication from and to [ARNode]
-  ARObjectManager manager;
+  MethodChannel channel;
 
   /// Specifies the receiver's [NodeType]
   NodeType type;
@@ -107,11 +107,11 @@ class ARNode {
     try {
       switch (type.index) {
         case 0, 2:
-          return await manager.channel.invokeMethod<bool>('setParent',
+          return await channel.invokeMethod<bool>('setParent',
               {'node': this.toMap(), 'type': type.index, 'parent': null});
         case 1:
           if (parent != null) {
-            return await manager.channel.invokeMethod<bool>('setParent',
+            return await channel.invokeMethod<bool>('setParent',
                 {'node': this.toMap(), 'type': type.index, 'parent': parent.toMap()});
           } else {
             print("No parent provided");
@@ -124,6 +124,7 @@ class ARNode {
   }
 
   Map<String, dynamic> toMap() => <String, dynamic>{
+        'channel': channel.name,
         'type': type.index,
         'uri': uri,
         'transformation':
@@ -134,6 +135,7 @@ class ARNode {
 
   static ARNode fromMap(Map<String, dynamic> map) {
     return ARNode(
+        channel: MethodChannel(map["channel"]),
         type: NodeType.values[map["type"]],
         uri: map["uri"] as String,
         name: map["name"] as String,

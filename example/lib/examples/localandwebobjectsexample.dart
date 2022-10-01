@@ -153,7 +153,7 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
       this.localObjectNode = null;
     } else {
       var newNode = ARNode(
-          manager: arObjectManager,
+          channel: arObjectManagerchannel,
           type: NodeType.localGLTF2,
           uri: "Models/Chicken_01/Chicken_01.gltf",
           scale: Vector3(0.2, 0.2, 0.2),
@@ -170,7 +170,7 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
       this.webObjectNode = null;
     } else {
       var newNode = ARNode(
-          manager: arObjectManager,
+          channel: arObjectManager.channel,
           type: NodeType.webGLB,
           uri:
               "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Duck/glTF-Binary/Duck.glb",
@@ -186,7 +186,7 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
       this.fileSystemNode = null;
     } else {
       var newNode = ARNode(
-          manager: arObjectManager,
+          channel: arObjectManager.channel,
           type: NodeType.fileSystemAppFolderGLB,
           uri: "LocalDuck.glb",
           scale: Vector3(0.2, 0.2, 0.2));

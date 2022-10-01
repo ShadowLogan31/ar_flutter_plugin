@@ -275,7 +275,7 @@ class _ExternalModelManagementWidgetState
         this.anchors.add(newAnchor);
         // Add note to anchor
         var newNode = ARNode(
-            manager: arObjectManager,
+            channel: arObjectManager.channel,
             type: NodeType.webGLB,
             uri: this.selectedModel.uri,
             scale: VectorMath.Vector3(0.2, 0.2, 0.2),
