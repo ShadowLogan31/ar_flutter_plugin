@@ -557,12 +557,12 @@ internal class AndroidARView(
             }
         }
         when (argGeospatialModeConfig) {
-            // 1 -> {
-            //     config?.geospatialMode = Config.GeospatialMode.ENABLED
-            // }
-            // else -> {
-            //     config?.geospatialMode = Config.GeospatialMode.DISABLED
-            // }
+            1 -> {
+                config?.geospatialMode = Config.GeospatialMode.ENABLED
+            }
+            else -> {
+                config?.geospatialMode = Config.GeospatialMode.DISABLED
+            }
         }
         arSceneView.session?.configure(config)
 
