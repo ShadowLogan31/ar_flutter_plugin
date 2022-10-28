@@ -164,7 +164,7 @@ class ARView extends StatefulWidget {
       {Key? key,
       required this.onARViewCreated,
       this.planeDetectionConfig = PlaneDetectionConfig.none,
-      this.geospatialModeConfig = GeospatialModeConfig.DISABLED,
+      this.geospatialModeConfig = GeospatialModeConfig.disabled,
       this.showPlatformType = false,
       this.permissionPromptDescription =
           "Camera permission must be given to the app for AR functions to work",
