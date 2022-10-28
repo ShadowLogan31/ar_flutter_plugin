@@ -556,13 +556,6 @@ internal class AndroidARView(
                 config?.planeFindingMode = Config.PlaneFindingMode.DISABLED
             }
         }
-        arSceneView.session?.configure(config)
-
-        // Configure geospatialMode detection
-        val config = arSceneView.session?.config
-        if (config == null) {
-            sessionManagerChannel.invokeMethod("onError", listOf("session is null"))
-        }
         when (argGeospatialModeConfig) {
             1 -> {
                 config?.geospatialMode = Config.GeospatialMode.ENABLED
@@ -572,7 +565,7 @@ internal class AndroidARView(
             }
         }
         arSceneView.session?.configure(config)
-
+        
         // Configure whether or not detected planes should be shown
         arSceneView.planeRenderer.isVisible = if (argShowPlanes == true) true else false
         // Create custom plane renderer (use supplied texture & increase radius)
