@@ -536,6 +536,7 @@ internal class AndroidARView(
             }
             pointCloudNode.setParent(null)
         }
+        print(argGeospatialModeConfig);
 
         // Configure plane detection
         val config = arSceneView.session?.config
@@ -556,7 +557,6 @@ internal class AndroidARView(
                 config?.planeFindingMode = Config.PlaneFindingMode.DISABLED
             }
         }
-        print(argGeospatialModeConfig);
         arSceneView.session?.configure(config)
 
         // Configure whether or not detected planes should be shown
