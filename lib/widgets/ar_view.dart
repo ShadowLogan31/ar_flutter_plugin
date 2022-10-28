@@ -1,4 +1,4 @@
-import 'package:ar_flutter_plugin/datatypes/config_geospatialMode.dart';
+import 'package:ar_flutter_plugin/datatypes/config_geospatialmode.dart';
 import 'package:ar_flutter_plugin/managers/ar_anchor_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_location_manager.dart';
 import 'package:flutter/material.dart';
