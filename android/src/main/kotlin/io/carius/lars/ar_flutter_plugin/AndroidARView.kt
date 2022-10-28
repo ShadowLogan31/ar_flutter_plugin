@@ -556,14 +556,14 @@ internal class AndroidARView(
                 config?.planeFindingMode = Config.PlaneFindingMode.DISABLED
             }
         }
-        // when (argGeospatialModeConfig) {
-        //     1 -> {
-        //         config?.geospatialMode = Config.GeospatialMode.ENABLED
-        //     }
-        //     else -> {
-        //         config?.geospatialMode = Config.GeospatialMode.DISABLED
-        //     }
-        // }
+        when (argGeospatialModeConfig) {
+            1 -> {
+                config?.geospatialMode = Config.GeospatialMode.ENABLED
+            }
+            else -> {
+                config?.geospatialMode = Config.GeospatialMode.DISABLED
+            }
+        }
         arSceneView.session?.configure(config)
 
         // Configure whether or not detected planes should be shown
