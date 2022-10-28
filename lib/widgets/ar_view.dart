@@ -1,3 +1,4 @@
+import 'package:ar_flutter_plugin/datatypes/config_geospatialMode.dart';
 import 'package:ar_flutter_plugin/managers/ar_anchor_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_location_manager.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,8 @@ abstract class PlatformARView {
   Widget build(
       {@required BuildContext context,
       @required ARViewCreatedCallback arViewCreatedCallback,
-      @required PlaneDetectionConfig planeDetectionConfig});
+      @required PlaneDetectionConfig planeDetectionConfig,
+      @required GeospatialModeConfig geospatialModeConfig});
 
   /// Callback function that is executed once the view is established
   void onPlatformViewCreated(int id);
@@ -41,14 +43,19 @@ createManagers(
     int id,
     BuildContext? context,
     ARViewCreatedCallback? arViewCreatedCallback,
-    PlaneDetectionConfig? planeDetectionConfig) {
+    PlaneDetectionConfig? planeDetectionConfig,
+    GeospatialModeConfig? geospatialModeConfig) {
   if (context == null ||
       arViewCreatedCallback == null ||
-      planeDetectionConfig == null) {
+      planeDetectionConfig == null ||
+      geospatialModeConfig == null) {
     return;
   }
-  arViewCreatedCallback(ARSessionManager(id, context, planeDetectionConfig),
-      ARObjectManager(id), ARAnchorManager(id), ARLocationManager());
+  arViewCreatedCallback(
+      ARSessionManager(id, context, planeDetectionConfig, geospatialModeConfig),
+      ARObjectManager(id),
+      ARAnchorManager(id),
+      ARLocationManager());
 }
 
 /// Android-specific implementation of [PlatformARView]
@@ -57,21 +64,25 @@ class AndroidARView implements PlatformARView {
   late BuildContext? _context;
   late ARViewCreatedCallback? _arViewCreatedCallback;
   late PlaneDetectionConfig? _planeDetectionConfig;
+  late GeospatialModeConfig? _geospatialModeConfig;
 
   @override
   void onPlatformViewCreated(int id) {
     print("Android platform view created!");
-    createManagers(id, _context, _arViewCreatedCallback, _planeDetectionConfig);
+    createManagers(id, _context, _arViewCreatedCallback, _planeDetectionConfig,
+        _geospatialModeConfig);
   }
 
   @override
   Widget build(
       {BuildContext? context,
       ARViewCreatedCallback? arViewCreatedCallback,
-      PlaneDetectionConfig? planeDetectionConfig}) {
+      PlaneDetectionConfig? planeDetectionConfig,
+      GeospatialModeConfig? geospatialModeConfig}) {
     _context = context;
     _arViewCreatedCallback = arViewCreatedCallback;
     _planeDetectionConfig = planeDetectionConfig;
+    _geospatialModeConfig = geospatialModeConfig;
     // This is used in the platform side to register the view.
     final String viewType = 'ar_flutter_plugin';
     // Pass parameters to the platform side.
@@ -92,21 +103,25 @@ class IosARView implements PlatformARView {
   BuildContext? _context;
   ARViewCreatedCallback? _arViewCreatedCallback;
   PlaneDetectionConfig? _planeDetectionConfig;
+  GeospatialModeConfig? _geospatialModeConfig;
 
   @override
   void onPlatformViewCreated(int id) {
     print("iOS platform view created!");
-    createManagers(id, _context, _arViewCreatedCallback, _planeDetectionConfig);
+    createManagers(id, _context, _arViewCreatedCallback, _planeDetectionConfig,
+        _geospatialModeConfig);
   }
 
   @override
   Widget build(
       {BuildContext? context,
       ARViewCreatedCallback? arViewCreatedCallback,
-      PlaneDetectionConfig? planeDetectionConfig}) {
+      PlaneDetectionConfig? planeDetectionConfig,
+      GeospatialModeConfig? geospatialModeConfig}) {
     _context = context;
     _arViewCreatedCallback = arViewCreatedCallback;
     _planeDetectionConfig = planeDetectionConfig;
+    _geospatialModeConfig = geospatialModeConfig;
     // This is used in the platform side to register the view.
     final String viewType = 'ar_flutter_plugin';
     // Pass parameters to the platform side.
@@ -139,6 +154,9 @@ class ARView extends StatefulWidget {
   /// Configures the type of planes ARCore and ARKit should track. defaults to none
   final PlaneDetectionConfig planeDetectionConfig;
 
+  // Configures whether or not Geospatial Mode is Enabled. defaults to DISABLED
+  final GeospatialModeConfig geospatialModeConfig;
+
   /// Configures whether or not to display the device's platform type above the AR view. Defaults to false
   final bool showPlatformType;
 
@@ -146,6 +164,7 @@ class ARView extends StatefulWidget {
       {Key? key,
       required this.onARViewCreated,
       this.planeDetectionConfig = PlaneDetectionConfig.none,
+      this.geospatialModeConfig = GeospatialModeConfig.DISABLED,
       this.showPlatformType = false,
       this.permissionPromptDescription =
           "Camera permission must be given to the app for AR functions to work",
@@ -215,7 +234,8 @@ class _ARViewState extends State<ARView> {
                 child: PlatformARView(Theme.of(context).platform).build(
                     context: context,
                     arViewCreatedCallback: widget.onARViewCreated,
-                    planeDetectionConfig: widget.planeDetectionConfig)),
+                    planeDetectionConfig: widget.planeDetectionConfig,
+                    geospatialModeConfig: widget.geospatialModeConfig)),
           ]);
         }
       case (PermissionStatus.denied):

@@ -1,6 +1,7 @@
 import 'dart:math' show sqrt;
 import 'dart:typed_data';
 
+import 'package:ar_flutter_plugin/datatypes/config_geospatialMode.dart';
 import 'package:ar_flutter_plugin/datatypes/config_planedetection.dart';
 import 'package:ar_flutter_plugin/models/ar_anchor.dart';
 import 'package:ar_flutter_plugin/models/ar_hittest_result.dart';
@@ -26,10 +27,13 @@ class ARSessionManager {
   /// Determines the types of planes ARCore and ARKit should show
   final PlaneDetectionConfig planeDetectionConfig;
 
+  final GeospatialModeConfig geospatialModeConfig;
+
   /// Receives hit results from user taps with tracked planes or feature points
   late ARHitResultHandler onPlaneOrPointTap;
 
   ARSessionManager(int id, this.buildContext, this.planeDetectionConfig,
+      this.geospatialModeConfig,
       {this.debug = false}) {
     _channel = MethodChannel('arsession_$id');
     _channel.setMethodCallHandler(_platformCallHandler);
