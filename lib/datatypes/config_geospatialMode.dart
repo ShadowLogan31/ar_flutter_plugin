@@ -1,4 +1,4 @@
-/// Determines which types of planes ARCore and ARKit should track
+/// Determines if Geospatial API is enabled or disabled
 enum GeospatialModeConfig {
   disabled,
   enabled,
