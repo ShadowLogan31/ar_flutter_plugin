@@ -484,6 +484,7 @@ internal class AndroidARView(
         // Unpack call arguments
         val argShowFeaturePoints: Boolean? = call.argument<Boolean>("showFeaturePoints")
         val argPlaneDetectionConfig: Int? = call.argument<Int>("planeDetectionConfig")
+        val argGeospatialModeConfig: Int? = call.argument<Int>("geospatialModeConfig")
         val argShowPlanes: Boolean? = call.argument<Boolean>("showPlanes")
         val argCustomPlaneTexturePath: String? = call.argument<String>("customPlaneTexturePath")
         val argShowWorldOrigin: Boolean? = call.argument<Boolean>("showWorldOrigin")
@@ -553,6 +554,14 @@ internal class AndroidARView(
             }
             else -> {
                 config?.planeFindingMode = Config.PlaneFindingMode.DISABLED
+            }
+        }
+        when (argGeospatialModeConfig) {
+            1 -> {
+                config?.geospatialMode = Config.GeospatialMode.ENABLED
+            }
+            else -> {
+                config?.geospatialMode = Config.GeospatialMode.DISABLED
             }
         }
         arSceneView.session?.configure(config)
