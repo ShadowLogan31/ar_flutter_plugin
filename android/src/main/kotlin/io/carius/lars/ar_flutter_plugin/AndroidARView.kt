@@ -537,7 +537,6 @@ internal class AndroidARView(
             pointCloudNode.setParent(null)
         }
 
-        print(argPlaneDetectionConfig)
         // Configure plane detection
         val config = arSceneView.session?.config
         if (config == null) {
@@ -555,6 +554,21 @@ internal class AndroidARView(
             }
             else -> {
                 config?.planeFindingMode = Config.PlaneFindingMode.DISABLED
+            }
+        }
+        arSceneView.session?.configure(config)
+
+        // Configure geospatialMode detection
+        val config = arSceneView.session?.config
+        if (config == null) {
+            sessionManagerChannel.invokeMethod("onError", listOf("session is null"))
+        }
+        when (argGeospatialModeConfig) {
+            1 -> {
+                config?.geospatialMode = Config.GeospatialMode.ENABLED
+            }
+            else -> {
+                config?.geospatialMode = Config.GeospatialMode.DISABLED
             }
         }
         arSceneView.session?.configure(config)
