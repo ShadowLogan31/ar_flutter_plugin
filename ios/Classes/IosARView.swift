@@ -248,6 +248,16 @@ class IosARView: NSObject, FlutterPlatformView, ARSCNViewDelegate, UIGestureReco
             }
         }
 
+        if let geospatialModeConfig = arguments["geospatialModeConfig"] as? Int {
+            switch geospatialModeConfig {
+                case 1: 
+                    configuration.geospatialMode = .enabled
+                
+                default: 
+                    configuration.geospatialMode = .disabled
+            }
+        }
+
         // Set plane rendering options
         if let configShowPlanes = arguments["showPlanes"] as? Bool {
             showPlanes = configShowPlanes
