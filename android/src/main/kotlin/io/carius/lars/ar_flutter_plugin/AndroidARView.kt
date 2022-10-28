@@ -556,7 +556,7 @@ internal class AndroidARView(
                 config?.planeFindingMode = Config.PlaneFindingMode.DISABLED
             }
         }
-        print("GEOSPATIALARG:" + toString(argGeospatialModeConfig));
+        print(argGeospatialModeConfig);
         arSceneView.session?.configure(config)
 
         // Configure whether or not detected planes should be shown
