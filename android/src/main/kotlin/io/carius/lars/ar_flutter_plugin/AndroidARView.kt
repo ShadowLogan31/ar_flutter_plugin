@@ -537,7 +537,7 @@ internal class AndroidARView(
             pointCloudNode.setParent(null)
         }
 
-        print(argPlaneDetectionConfig);
+        print(argPlaneDetectionConfig)
         // Configure plane detection
         val config = arSceneView.session?.config
         if (config == null) {
