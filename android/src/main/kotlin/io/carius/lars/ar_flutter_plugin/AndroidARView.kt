@@ -977,20 +977,23 @@ internal class AndroidARView(
             val altitude = coordinates[2]
             val earth: Earth = arSceneView.session!!.earth
             if (earth.trackingState == TrackingState.TRACKING) {
-            val anchor: Anchor = earth.createAnchor(
-                latLng.latitude,
-                latLng.longitude,
-                earth.cameraGeospatialPose.altitude,
-                0f,
-                0f,
-                0f,
-                1f,
-            );
-            val anchorNode = AnchorNode(anchor)
-            anchorNode.name = name
-            anchorNode.setParent(arSceneView.scene)
-            true
+                val anchor: Anchor = earth.createAnchor(
+                    latLng.latitude,
+                    latLng.longitude,
+                    earth.cameraGeospatialPose.altitude,
+                    0f,
+                    0f,
+                    0f,
+                    1f,
+                )
+                val anchorNode = AnchorNode(anchor)
+                anchorNode.name = name
+                anchorNode.setParent(arSceneView.scene)
+                true
+            } else {
+                return false
             }
+            return false
         } catch (e: Exception) {
             false
         }
