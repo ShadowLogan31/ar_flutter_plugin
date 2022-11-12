@@ -93,6 +93,65 @@ Map<String, dynamic> aRPlaneAnchorToJson(ARPlaneAnchor instance) {
   };
 }
 
+/// An [ARAnchor] fixed to a tracked plane
+class ARGeospatialAnchor extends ARAnchor {
+  ARGeospatialAnchor({
+    required Matrix4 transformation,
+    String? name,
+    List<String>? childNodes,
+    String? cloudanchorid,
+    int? ttl,
+  })  : childNodes = childNodes ?? [],
+        cloudanchorid = cloudanchorid ?? null,
+        ttl = ttl ?? 1,
+        super(
+            type: AnchorType.geospatial,
+            transformation: transformation,
+            name: name);
+
+  /// Names of ARNodes attached to this [APlaneRAnchor]
+  List<String> childNodes;
+
+  /// ID associated with the anchor after uploading it to the google cloud anchor API
+  String? cloudanchorid;
+
+  /// Time to live of the anchor: Determines how long the anchor is stored once it is uploaded to the google cloud anchor API (optional, defaults to 1 day (24hours))
+  int? ttl;
+
+  static ARGeospatialAnchor fromJson(Map<String, dynamic> json) =>
+      aRGeospatialAnchorFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => aRGeospatialAnchorToJson(this);
+}
+
+/// Constructs an [ARPlaneAnchor] from a serialized PlaneAnchor object
+ARGeospatialAnchor aRGeospatialAnchorFromJson(Map<String, dynamic> json) {
+  return ARGeospatialAnchor(
+    transformation:
+        const MatrixConverter().fromJson(json['transformation'] as List),
+    name: json['name'] as String,
+    childNodes: json['childNodes']
+        ?.map((child) => child.toString())
+        ?.toList()
+        ?.cast<String>(),
+    cloudanchorid: json['cloudanchorid'] as String?,
+    ttl: json['ttl'] as int?,
+  );
+}
+
+/// Serializes an [ARGeospatialAnchor]
+Map<String, dynamic> aRGeospatialAnchorToJson(ARGeospatialAnchor instance) {
+  return <String, dynamic>{
+    'type': instance.type.index,
+    'transformation': MatrixConverter().toJson(instance.transformation),
+    'name': instance.name,
+    'childNodes': instance.childNodes,
+    'cloudanchorid': instance.cloudanchorid,
+    'ttl': instance.ttl,
+  };
+}
+
 /// An [ARAnchor] type that is not supported yet
 class ARUnkownAnchor extends ARAnchor {
   ARUnkownAnchor(
