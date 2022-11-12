@@ -17,3 +17,17 @@ class MatrixConverter implements JsonConverter<Matrix4, List<dynamic>> {
     return list;
   }
 }
+
+class ListConverter implements JsonConverter<List<double>, List<dynamic>> {
+  const ListConverter();
+
+  @override
+  List<double> fromJson(List<dynamic> json) {
+    return json.cast<double>().toList();
+  }
+
+  @override
+  List<dynamic> toJson(List<double> list) {
+    return list;
+  }
+}

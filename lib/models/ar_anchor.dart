@@ -30,7 +30,7 @@ abstract class ARAnchor {
   }
 
   /// Defines the anchor’s rotation, translation and scale in world coordinates.
-  final Matrix4 transformation;
+  final dynamic transformation;
 
   /// Serializes an [ARAnchor]
   Map<String, dynamic> toJson();
@@ -39,7 +39,7 @@ abstract class ARAnchor {
 /// An [ARAnchor] fixed to a tracked plane
 class ARPlaneAnchor extends ARAnchor {
   ARPlaneAnchor({
-    required Matrix4 transformation,
+    required dynamic transformation,
     String? name,
     List<String>? childNodes,
     String? cloudanchorid,
@@ -69,8 +69,9 @@ class ARPlaneAnchor extends ARAnchor {
 /// Constructs an [ARPlaneAnchor] from a serialized PlaneAnchor object
 ARPlaneAnchor aRPlaneAnchorFromJson(Map<String, dynamic> json) {
   return ARPlaneAnchor(
-    transformation:
-        const MatrixConverter().fromJson(json['transformation'] as List),
+    transformation: json["transformation"]
+        ? const MatrixConverter().fromJson(json['transformation'] as List)
+        : ListConverter().fromJson(json["coordinates"] as List),
     name: json['name'] as String,
     childNodes: json['childNodes']
         ?.map((child) => child.toString())
@@ -85,7 +86,9 @@ ARPlaneAnchor aRPlaneAnchorFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> aRPlaneAnchorToJson(ARPlaneAnchor instance) {
   return <String, dynamic>{
     'type': instance.type.index,
-    'transformation': MatrixConverter().toJson(instance.transformation),
+    'transformation': instance.transformation.runtimeType == Matrix4
+        ? MatrixConverter().toJson(instance.transformation)
+        : ListConverter().toJson(instance.transformation),
     'name': instance.name,
     'childNodes': instance.childNodes,
     'cloudanchorid': instance.cloudanchorid,
@@ -96,7 +99,7 @@ Map<String, dynamic> aRPlaneAnchorToJson(ARPlaneAnchor instance) {
 /// An [ARAnchor] fixed to a tracked plane
 class ARGeospatialAnchor extends ARAnchor {
   ARGeospatialAnchor({
-    required Matrix4 transformation,
+    required dynamic transformation,
     String? name,
     List<String>? childNodes,
     String? cloudanchorid,
@@ -128,8 +131,9 @@ class ARGeospatialAnchor extends ARAnchor {
 /// Constructs an [ARPlaneAnchor] from a serialized PlaneAnchor object
 ARGeospatialAnchor aRGeospatialAnchorFromJson(Map<String, dynamic> json) {
   return ARGeospatialAnchor(
-    transformation:
-        const MatrixConverter().fromJson(json['transformation'] as List),
+    transformation: json["transformation"]
+        ? const MatrixConverter().fromJson(json['transformation'] as List)
+        : ListConverter().fromJson(json["coordinates"] as List),
     name: json['name'] as String,
     childNodes: json['childNodes']
         ?.map((child) => child.toString())
@@ -144,7 +148,9 @@ ARGeospatialAnchor aRGeospatialAnchorFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> aRGeospatialAnchorToJson(ARGeospatialAnchor instance) {
   return <String, dynamic>{
     'type': instance.type.index,
-    'transformation': MatrixConverter().toJson(instance.transformation),
+    'transformation': instance.transformation.runtimeType == Matrix4
+        ? MatrixConverter().toJson(instance.transformation)
+        : ListConverter().toJson(instance.transformation),
     'name': instance.name,
     'childNodes': instance.childNodes,
     'cloudanchorid': instance.cloudanchorid,
@@ -155,7 +161,7 @@ Map<String, dynamic> aRGeospatialAnchorToJson(ARGeospatialAnchor instance) {
 /// An [ARAnchor] type that is not supported yet
 class ARUnkownAnchor extends ARAnchor {
   ARUnkownAnchor(
-      {required AnchorType type, required Matrix4 transformation, String? name})
+      {required AnchorType type, required dynamic transformation, String? name})
       : super(type: type, transformation: transformation, name: name);
 
   static ARUnkownAnchor fromJson(Map<String, dynamic> json) =>

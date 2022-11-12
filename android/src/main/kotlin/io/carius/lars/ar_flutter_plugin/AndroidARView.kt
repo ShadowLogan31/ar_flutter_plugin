@@ -241,7 +241,7 @@ internal class AndroidARView(
                     when (call.method) {
                         "addAnchor" -> {
                             val anchorType: Int? = call.argument<Int>("type")
-                            if (anchorType != null){
+                            if (anchorType != null) {
                                 when(anchorType) {
                                     0 -> { // Plane Anchor
                                         val transform: ArrayList<Double>? = call.argument<ArrayList<Double>>("transformation")
@@ -251,7 +251,14 @@ internal class AndroidARView(
                                         } else {
                                             result.success(false)
                                         }
-
+                                    1 -> { // Geospatial Anchor
+                                        val transformation: ArrayList<Double>? = call.argument<ArrayList<Double>>("transformation")
+                                        val name: String? = call.argument<String>("name")
+                                        if ( name != null && transformation != null){
+                                            result.success(addGeospatialAnchor(transformation, name))
+                                        } else {
+                                            result.success(false)
+                                        }
                                     }
                                     else -> result.success(false)
                                 }
@@ -957,6 +964,32 @@ internal class AndroidARView(
             anchorNode.name = name
             anchorNode.setParent(arSceneView.scene)
             true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    private fun addGeospatialAnchor(coordinates: ArrayList<Double>, name: String): Boolean {
+        return try {
+            val latitude = coordinates[0]
+            val longitude = coordinates[1]
+            val altitude = coordinates[2]
+            val earth: Earth = arSceneView.session!!.earth
+            if (earth.trackingState == TrackingState.TRACKING) {
+            val anchor: Anchor = earth.createAnchor(
+                latLng.latitude,
+                latLng.longitude,
+                earth.cameraGeospatialPose.altitude,
+                0f,
+                0f,
+                0f,
+                1f,
+            )
+            val anchorNode = AnchorNode(anchor)
+            anchorNode.name = name
+            anchorNode.setParent(arSceneView.scene)
+            true
+            }
         } catch (e: Exception) {
             false
         }
