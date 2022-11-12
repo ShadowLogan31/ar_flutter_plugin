@@ -134,6 +134,13 @@ class IosARView: NSObject, FlutterPlatformView, ARSCNViewDelegate, UIGestureReco
                         }).store(in: &self.cancellableCollection)
                 }
                 break
+            case "setParent":
+                if let dict_node = arguments!["node"] as? Dictionary<String, Any>, let dict_parent = arguments!["parent"] as? Dictionary<String, Any> let node_type = arguments!["type"] {
+                    setParent(dict_node: dict_node, dict_parent: dict_parent, type: node_type).sink(receiveCompletion: {completion in }, receiveValue: { val in
+                           result(val)
+                        }).store(in: &self.cancellableCollection)
+                }
+                break
             case "removeNode":
                 if let name = arguments!["name"] as? String {
                     sceneView.scene.rootNode.childNode(withName: name, recursively: true)?.removeFromParentNode()
@@ -163,6 +170,17 @@ class IosARView: NSObject, FlutterPlatformView, ARSCNViewDelegate, UIGestureReco
                 if let type = arguments!["type"] as? Int {
                     switch type {
                     case 0: //Plane Anchor
+                        if let transform = arguments!["transformation"] as? Array<NSNumber>, let name = arguments!["name"] as? String {
+                            addPlaneAnchor(transform: transform, name: name)
+                            result(true)
+                        }
+                        result(false)
+                        break
+                    default:
+                        result(false)
+                    
+                    }
+                    case 1: //Geospatial Anchor
                         if let transform = arguments!["transformation"] as? Array<NSNumber>, let name = arguments!["name"] as? String {
                             addPlaneAnchor(transform: transform, name: name)
                             result(true)
@@ -518,6 +536,79 @@ class IosARView: NSObject, FlutterPlatformView, ARSCNViewDelegate, UIGestureReco
                     break
                 default:
                     promise(.success(false))
+            }
+            
+        }
+    }
+
+    func addNode(dict_node: Dictionary<String, Any>, dict_parent: Dictionary<String, Any>? = nil, node_type: Int?) -> Future<Bool, Never> {
+
+        return Future {promise in
+            
+            switch (type) {
+                case 0: // GLTF2 Model from Flutter asset folder
+                    // Get path to given Flutter asset
+                    let key = FlutterDartProject.lookupKey(forAsset: dict_node["uri"] as! String)
+                    // Add object to scene
+                    if let node: SCNNode = self.modelBuilder.makeNodeFromGltf(name: dict_node["name"] as! String, modelPath: key, transformation: dict_node["transformation"] as? Array<NSNumber>) {
+                        if let anchorName = dict_anchor?["name"] as? String, let anchorType = dict_anchor?["type"] as? Int {
+                            switch anchorType{
+                                case 0: //PlaneAnchor
+                                    if let anchor = self.anchorCollection[anchorName]{
+                                        // Attach node to the top-level node of the specified anchor
+                                        self.sceneView.node(for: anchor)?.addChildNode(node)
+                                        promise(.success(true))
+                                    } else {
+                                        promise(.success(false))
+                                    }
+                                default:
+                                    promise(.success(false))
+                                }
+                            
+                        } else {
+                            // Attach to top-level node of the scene
+                            self.sceneView.scene.rootNode.addChildNode(node)
+                            promise(.success(true))
+                        }
+                        promise(.success(false))
+                    } else {
+                        self.sessionManagerChannel.invokeMethod("onError", arguments: ["Unable to load renderable \(dict_node["uri"] as! String)"])
+                        promise(.success(false))
+                    }
+                    break
+                case 1: // GLB Model from the web
+                    // Add object to scene
+                    self.modelBuilder.makeNodeFromWebGlb(name: dict_node["name"] as! String, modelURL: dict_node["uri"] as! String, transformation: dict_node["transformation"] as? Array<NSNumber>)
+                    .sink(receiveCompletion: {
+                                    completion in print("Async Model Downloading Task completed: ", completion)
+                    }, receiveValue: { val in
+                        if let node: SCNNode = val {
+                            if let anchorName = dict_anchor?["name"] as? String, let anchorType = dict_anchor?["type"] as? Int {
+                                switch anchorType{
+                                    case 0: //PlaneAnchor
+                                        if let anchor = self.anchorCollection[anchorName]{
+                                            // Attach node to the top-level node of the specified anchor
+                                            self.sceneView.node(for: anchor)?.addChildNode(node)
+                                            promise(.success(true))
+                                        } else {
+                                            promise(.success(false))
+                                        }
+                                    default:
+                                        promise(.success(false))
+                                    }
+                                
+                            } else {
+                                // Attach to top-level node of the scene
+                                self.sceneView.scene.rootNode.addChildNode(node)
+                                promise(.success(true))
+                            }
+                            promise(.success(false))
+                        } else {
+                            self.sessionManagerChannel.invokeMethod("onError", arguments: ["Unable to load renderable \(dict_node["name"] as! String)"])
+                            promise(.success(false))
+                        }
+                    }).store(in: &self.cancellableCollection)
+                    break
             }
             
         }

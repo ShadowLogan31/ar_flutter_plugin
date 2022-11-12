@@ -251,6 +251,7 @@ internal class AndroidARView(
                                         } else {
                                             result.success(false)
                                         }
+                                    }
                                     1 -> { // Geospatial Anchor
                                         val transformation: ArrayList<Double>? = call.argument<ArrayList<Double>>("transformation")
                                         val name: String? = call.argument<String>("name")
@@ -984,7 +985,7 @@ internal class AndroidARView(
                 0f,
                 0f,
                 1f,
-            )
+            );
             val anchorNode = AnchorNode(anchor)
             anchorNode.name = name
             anchorNode.setParent(arSceneView.scene)
