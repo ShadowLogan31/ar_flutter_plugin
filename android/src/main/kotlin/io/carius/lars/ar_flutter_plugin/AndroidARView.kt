@@ -205,7 +205,20 @@ internal class AndroidARView(
                             } else {
                                 result.success(false)
                             }
-
+                        }
+                        "addNodeToGeospatialAnchor" -> {
+                            val dict_node: HashMap<String, Any>? = call.argument<HashMap<String, Any>>("node")
+                            val dict_anchor: HashMap<String, Any>? = call.argument<HashMap<String, Any>>("anchor")
+                            if (dict_node != null && dict_anchor != null) {
+                                addNode(dict_node, dict_anchor).thenAccept{status: Boolean ->
+                                    result.success(status)
+                                }.exceptionally { throwable ->
+                                    result.error("e", throwable.message, throwable.stackTrace)
+                                    null
+                                }
+                            } else {
+                                result.success(false)
+                            }
                         }
                         "removeNode" -> {
                             val nodeName: String? = call.argument<String>("name")

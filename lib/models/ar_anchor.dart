@@ -25,6 +25,8 @@ abstract class ARAnchor {
     switch (type) {
       case 0: //(= AnchorType.plane)
         return ARPlaneAnchor.fromJson(arguments);
+      case 1: //(= AnchorType.geospatial)
+        return ARGeospatialAnchor.fromJson(arguments);
     }
     return ARUnkownAnchor.fromJson(arguments);
   }
@@ -69,9 +71,8 @@ class ARPlaneAnchor extends ARAnchor {
 /// Constructs an [ARPlaneAnchor] from a serialized PlaneAnchor object
 ARPlaneAnchor aRPlaneAnchorFromJson(Map<String, dynamic> json) {
   return ARPlaneAnchor(
-    transformation: json["transformation"]
-        ? const MatrixConverter().fromJson(json['transformation'] as List)
-        : ListConverter().fromJson(json["coordinates"] as List),
+    transformation:
+        const MatrixConverter().fromJson(json['transformation'] as List),
     name: json['name'] as String,
     childNodes: json['childNodes']
         ?.map((child) => child.toString())
@@ -86,9 +87,7 @@ ARPlaneAnchor aRPlaneAnchorFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> aRPlaneAnchorToJson(ARPlaneAnchor instance) {
   return <String, dynamic>{
     'type': instance.type.index,
-    'transformation': instance.transformation.runtimeType == Matrix4
-        ? MatrixConverter().toJson(instance.transformation)
-        : ListConverter().toJson(instance.transformation),
+    'transformation': MatrixConverter().toJson(instance.transformation),
     'name': instance.name,
     'childNodes': instance.childNodes,
     'cloudanchorid': instance.cloudanchorid,
@@ -131,9 +130,8 @@ class ARGeospatialAnchor extends ARAnchor {
 /// Constructs an [ARPlaneAnchor] from a serialized PlaneAnchor object
 ARGeospatialAnchor aRGeospatialAnchorFromJson(Map<String, dynamic> json) {
   return ARGeospatialAnchor(
-    transformation: json["transformation"]
-        ? const MatrixConverter().fromJson(json['transformation'] as List)
-        : ListConverter().fromJson(json["coordinates"] as List),
+    transformation:
+        const ListConverter().fromJson(json["transformation"] as List),
     name: json['name'] as String,
     childNodes: json['childNodes']
         ?.map((child) => child.toString())
@@ -148,9 +146,7 @@ ARGeospatialAnchor aRGeospatialAnchorFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> aRGeospatialAnchorToJson(ARGeospatialAnchor instance) {
   return <String, dynamic>{
     'type': instance.type.index,
-    'transformation': instance.transformation.runtimeType == Matrix4
-        ? MatrixConverter().toJson(instance.transformation)
-        : ListConverter().toJson(instance.transformation),
+    'transformation': ListConverter().toJson(instance.transformation),
     'name': instance.name,
     'childNodes': instance.childNodes,
     'cloudanchorid': instance.cloudanchorid,
