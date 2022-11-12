@@ -976,11 +976,11 @@ internal class AndroidARView(
             val longitude = coordinates[1]
             val altitude = coordinates[2]
             val earth: Earth? = arSceneView.session?.earth
-            if (earth.trackingState == TrackingState.TRACKING) {
-                val anchor: Anchor? = earth.createAnchor(
+            if (earth?.trackingState == TrackingState.TRACKING) {
+                val anchor: Anchor? = earth?.createAnchor(
                     latitude,
                     longitude,
-                    earth.cameraGeospatialPose.altitude,
+                    earth?.cameraGeospatialPose.altitude,
                     0f,
                     0f,
                     0f,
