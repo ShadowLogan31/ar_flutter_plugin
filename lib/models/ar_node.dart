@@ -25,7 +25,7 @@ class ARNode {
     Vector3? eulerAngles,
     Matrix4? transformation,
     Map<String, dynamic>? data,
-  }) : name = name ?? UniqueKey().toString(),
+  })  : name = name ?? UniqueKey().toString(),
         transformNotifier = ValueNotifier(createTransformMatrix(
             transformation, position, scale, rotation, eulerAngles)),
         data = data ?? null;
@@ -37,7 +37,7 @@ class ARNode {
   NodeType type;
 
   /// Specifies the path to the 3D model used for the [ARNode]. Depending on the [type], this is either a relative path or an URL to an online asset
-  String uri;
+  dynamic uri;
 
   /// Determines the receiver's transform.
   /// The transform is the combination of the position, rotation and scale defined below.
@@ -112,13 +112,16 @@ class ARNode {
               {'node': this.toMap(), 'type': type.index, 'parent': null});
         case 2:
           if (parent != null) {
-            return await channel.invokeMethod<bool>('setParent',
-                {'node': this.toMap(), 'type': type.index, 'parent': parent!.toMap()});
+            return await channel.invokeMethod<bool>('setParent', {
+              'node': this.toMap(),
+              'type': type.index,
+              'parent': parent!.toMap()
+            });
           } else {
             print("No parent provided");
             break;
           }
-        default: 
+        default:
           print("ERROR");
       }
     } on PlatformException catch (e) {

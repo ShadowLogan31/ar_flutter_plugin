@@ -162,6 +162,37 @@ class ArModelBuilder {
 
         return completableFutureNode
     }
+
+    fun makeNodeFromText(context: Context, transformationSystem: TransformationSystem, objectManagerChannel: MethodChannel, enablePans: Boolean, enableRotation: Boolean, name: String, textData: String, transformation: ArrayList<Double>): CompletableFuture<CustomTransformableNode> {
+        val completableFutureNode: CompletableFuture<CustomTransformableNode> = CompletableFuture()
+
+        val textNode = CustomTransformableNode(transformationSystem, objectManagerChannel, enablePans, enableRotation)
+
+        ViewRenderable.builder()
+            .setView(context, R.layout.controls)
+            .build()
+            .thenAccept{ renderable ->
+                    textNode.renderable = renderable
+                    textNode.name = name
+                    val transform = deserializeMatrix4(transformation)
+                    textNode.worldScale = transform.first
+                    textNode.worldPosition = transform.second
+                    textNode.worldRotation = transform.third
+                    renderable.isShadowCaster = false
+                    renderable.isShadowReceiver = false
+                    renderable.view.findViewById<ImageButton>(R.id.info_button).setOnClickListener {
+                        // TODO: do smth here
+                    }
+                    completableFutureNode.complete(textNode)
+            }
+            .exceptionally {
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage(it.message).setTitle("Error")
+                val dialog = builder.create()
+                dialog.show()
+                return@exceptionally null
+            }
+    }
 }
 
 class CustomTransformableNode(transformationSystem: TransformationSystem, objectManagerChannel: MethodChannel, enablePans: Boolean, enableRotation: Boolean) :
