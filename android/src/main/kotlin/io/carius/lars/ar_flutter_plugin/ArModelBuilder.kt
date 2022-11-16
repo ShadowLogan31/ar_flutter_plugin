@@ -163,11 +163,16 @@ class ArModelBuilder {
         return completableFutureNode
     }
 
-    fun makeNodeFromText(context: Context, transformationSystem: TransformationSystem, objectManagerChannel: MethodChannel, enablePans: Boolean, enableRotation: Boolean, name: String, textData: String, transformation: ArrayList<Double>): CompletableFuture<CustomTransformableNode> {
+    fun makeNodeFromText(context: Context, transformationSystem: TransformationSystem, objectManagerChannel: MethodChannel, enablePans: Boolean, enableRotation: Boolean, name: String, textData: ArrayList<String>, transformation: ArrayList<Double>): CompletableFuture<CustomTransformableNode> {
         val completableFutureNode: CompletableFuture<CustomTransformableNode> = CompletableFuture()
 
         val textNode = CustomTransformableNode(transformationSystem, objectManagerChannel, enablePans, enableRotation)
 
+        val title = textData[0]
+        val desc = textData[1]
+        val host = textData[2]
+        val type = textData[3]
+        
         ViewRenderable.builder()
             .setView(context, R.layout.controls)
             .build()
