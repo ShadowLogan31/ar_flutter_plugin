@@ -124,7 +124,7 @@ internal class AndroidARView(
                             val earth: Earth? = arSceneView.session?.earth
                             val earthTracking = earth?.trackingState
                             if (earthTracking != null) {
-                                result.success(earthTracking)
+                                result.success(earthTracking.toString())
                             } else {
                                 result.error("Error", "could not get camera pose", null)
                             }
