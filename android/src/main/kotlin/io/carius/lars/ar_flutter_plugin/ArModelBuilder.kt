@@ -120,7 +120,7 @@ class ArModelBuilder {
                     null // return null because java expects void return (in java, void has no instance, whereas in Kotlin, this closure returns a Unit which has one instance)
                 }
 
-    return completableFutureNode
+        return completableFutureNode
     }
 
     // Creates a node form a given glb model path or URL. The gltf asset loading in Sceneform is asynchronous, so the function returns a compleatable future of type Node
@@ -170,10 +170,10 @@ class ArModelBuilder {
 
         val textNode = CustomTransformableNode(transformationSystem, objectManagerChannel, enablePans, enableRotation)
 
-        val relativeLayout : RelativeLayout = RelativeLayout(this);
+        val relativeLayout : RelativeLayout = RelativeLayout(this) as RelativeLayout;
         for( i in 0..textData.size )
         {
-        val textView : TextView = TextView(this);
+        val textView : TextView = TextView(this) as TextView;
         textView.setText(textData[i]);
         relativeLayout.addView(textView);
         }
