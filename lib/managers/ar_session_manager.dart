@@ -73,8 +73,8 @@ class ARSessionManager {
 
   Future<String?> getEarthTrackingState() async {
     try {
-      final earthTrackingState = await _channel
-          .invokeMethod<List<dynamic>>('getEarthTrackingState', {});
+      final earthTrackingState =
+          await _channel.invokeMethod<String>('getEarthTrackingState', {});
       return earthTrackingState as String;
     } catch (e) {
       print('Error caught: ' + e.toString());
