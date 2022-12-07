@@ -1034,6 +1034,7 @@ internal class AndroidARView(
                 anchorNode.setParent(arSceneView.scene)
                 true
             } else {
+                print("DIDNT WORK")
                 return false
             }
             return false
