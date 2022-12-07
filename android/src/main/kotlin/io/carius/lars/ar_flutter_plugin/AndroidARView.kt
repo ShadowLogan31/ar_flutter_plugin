@@ -121,6 +121,7 @@ internal class AndroidARView(
                             }
                         }
                         "getEarthTrackingState" -> {
+                            val earth: Earth? = arSceneView.session?.earth
                             val earthTracking = earth?.trackingState
                             if (earthTracking != null) {
                                 result.success(earthTracking)
