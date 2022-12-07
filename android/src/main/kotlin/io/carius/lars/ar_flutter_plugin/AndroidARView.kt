@@ -1015,6 +1015,7 @@ internal class AndroidARView(
         return try {
             val latitude = coordinates[0]
             val longitude = coordinates[1]
+            print("LATITUDE LOCATION: " + latitude);
             val altitude = coordinates[2]
             val earth: Earth? = arSceneView.session?.earth
             if (earth?.trackingState == TrackingState.TRACKING) {
@@ -1027,7 +1028,7 @@ internal class AndroidARView(
                     0f,
                     1f,
                 )
-                
+
                 val anchorNode = AnchorNode(anchor)
                 anchorNode.name = name
                 anchorNode.setParent(arSceneView.scene)
