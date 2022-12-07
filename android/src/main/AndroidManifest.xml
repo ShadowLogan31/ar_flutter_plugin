@@ -10,6 +10,8 @@
     <!-- "AR Optional" app, contains non-AR features that can be used when
          "Google Play Services for AR" (ARCore) is not available. -->
     <meta-data android:name="com.google.ar.core" android:value="optional" />
+    <meta-data android:name="com.google.ar.API_KEY" android:value="${localPropertiesManifest}" />
+    <meta-data android:name="com.google.geo.API_KEY" android:value="${localPropertiesManifest}" />
   </application>
 
 </manifest>
