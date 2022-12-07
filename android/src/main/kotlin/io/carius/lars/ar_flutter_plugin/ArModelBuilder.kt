@@ -171,7 +171,7 @@ class ArModelBuilder {
         val relativeLayout = RelativeLayout(this);
         for( i in 0..textData.length )
         {
-        TextView textView = TextView(this);
+        val textView = TextView(this);
         textView.setText(textData[i]);
         relativeLayout.addView(textView);
         }
