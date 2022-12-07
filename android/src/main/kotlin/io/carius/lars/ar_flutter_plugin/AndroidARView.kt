@@ -1022,7 +1022,7 @@ internal class AndroidARView(
                 val anchor: Anchor? = earth?.createAnchor(
                     latitude,
                     longitude,
-                    earth?.cameraGeospatialPose.altitude,
+                    altitude,
                     0f,
                     0f,
                     0f,
