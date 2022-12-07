@@ -120,6 +120,14 @@ internal class AndroidARView(
                                 result.error("Error", "could not get camera pose", null)
                             }
                         }
+                        "getEarthTrackingState" -> {
+                            val earthTracking = earth?.trackingState
+                            if (earthTracking != null) {
+                                result.success(earthTracking)
+                            } else {
+                                result.error("Error", "could not get camera pose", null)
+                            }
+                        }
                         "snapshot" -> {
                             var bitmap = Bitmap.createBitmap(arSceneView.width, arSceneView.height,
                                     Bitmap.Config.ARGB_8888);
@@ -1032,6 +1040,7 @@ internal class AndroidARView(
                 val anchorNode = AnchorNode(anchor)
                 anchorNode.name = name
                 anchorNode.setParent(arSceneView.scene)
+                Log.d(TAG, "ANCHORNAME: " + name)
                 true
             } else {
                 Log.d(TAG, "GEOSPATIAL NODE DIDNT WORK")

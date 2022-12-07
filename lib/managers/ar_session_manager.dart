@@ -71,6 +71,17 @@ class ARSessionManager {
     }
   }
 
+  Future<String?> getEarthTrackingState() async {
+    try {
+      final earthTrackingState = await _channel
+          .invokeMethod<List<dynamic>>('getEarthTrackingState', {});
+      return earthTrackingState as String;
+    } catch (e) {
+      print('Error caught: ' + e.toString());
+      return null;
+    }
+  }
+
   /// Returns the distance in meters between @anchor1 and @anchor2.
   Future<double?> getDistanceBetweenAnchors(
       ARAnchor anchor1, ARAnchor anchor2) async {
