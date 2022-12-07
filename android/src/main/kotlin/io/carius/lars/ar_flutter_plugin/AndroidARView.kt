@@ -126,7 +126,7 @@ internal class AndroidARView(
                             if (earthTracking != null) {
                                 result.success(earthTracking.toString())
                             } else {
-                                result.error("Error", "could not get camera pose", null)
+                                result.error("Error", "could not get earth state", null)
                             }
                         }
                         "snapshot" -> {
