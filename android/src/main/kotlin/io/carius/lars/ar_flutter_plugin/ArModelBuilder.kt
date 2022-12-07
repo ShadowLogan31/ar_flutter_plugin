@@ -169,7 +169,7 @@ class ArModelBuilder {
         val textNode = CustomTransformableNode(transformationSystem, objectManagerChannel, enablePans, enableRotation)
 
         val relativeLayout = RelativeLayout(this);
-        for( i in 0..textData.length )
+        for( i in 0..textData.size )
         {
         val textView = TextView(this);
         textView.setText(textData[i]);
@@ -193,13 +193,12 @@ class ArModelBuilder {
                     // }
                     completableFutureNode.complete(textNode)
             }
-            .exceptionally {
-                val builder = AlertDialog.Builder(this)
-                builder.setMessage(it.message).setTitle("Error")
-                val dialog = builder.create()
-                dialog.show()
-                return@exceptionally null
-            }
+            .exceptionally{throwable ->
+                    completableFutureNode.completeExceptionally(throwable)
+                    null // return null because java expects void return (in java, void has no instance, whereas in Kotlin, this closure returns a Unit which has one instance)
+                }
+
+        return completableFutureNode
     }
 }
 
