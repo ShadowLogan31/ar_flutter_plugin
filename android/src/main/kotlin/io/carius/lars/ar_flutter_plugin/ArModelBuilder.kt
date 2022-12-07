@@ -170,10 +170,10 @@ class ArModelBuilder {
 
         val textNode = CustomTransformableNode(transformationSystem, objectManagerChannel, enablePans, enableRotation)
 
-        val relativeLayout = RelativeLayout(this) as RelativeLayout;
+        val relativeLayout = RelativeLayout(this);
         for( i in 0..textData.size )
         {
-        val textView = TextView(this) as TextView;
+        val textView = TextView(this);
         textView.setText(textData[i]);
         relativeLayout.addView(textView);
         }
