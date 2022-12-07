@@ -115,7 +115,7 @@ class ARNode {
             return await channel.invokeMethod<bool>('setParent', {
               'node': this.toMap(),
               'type': type.index,
-              'parent': parent!.toMap()
+              'parent': parent.toMap()
             });
           } else {
             print("No parent provided");
@@ -143,7 +143,9 @@ class ARNode {
     return ARNode(
         channel: MethodChannel(map["channel"]),
         type: NodeType.values[map["type"]],
-        uri: map["uri"] as String,
+        uri: NodeType.values[map["type"]] == NodeType.text
+            ? map["uri"] as List<String>
+            : map["uri"] as String,
         name: map["name"] as String,
         transformation: MatrixConverter().fromJson(map["transformation"]),
         data: Map<String, dynamic>.from(map["data"]));
