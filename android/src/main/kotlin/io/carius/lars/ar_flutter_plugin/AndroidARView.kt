@@ -122,11 +122,11 @@ internal class AndroidARView(
                         }
                         "getEarthTrackingState" -> {
                             val earth: Earth? = arSceneView.session?.earth
-                            val earthTracking = earth?.getTrackingState()
+                            val earthTracking = earth?.earthState
                             if (earthTracking != null) {
                                 result.success(earthTracking.toString())
                             } else {
-                                result.error("Error", "could not get earth state", null)
+                                result.error("Error", "could not get camera pose", null)
                             }
                         }
                         "snapshot" -> {
