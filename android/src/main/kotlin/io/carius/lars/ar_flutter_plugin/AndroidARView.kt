@@ -1028,13 +1028,6 @@ internal class AndroidARView(
                     0f,
                     1f,
                 )
-                
-                val latlng = LatLng(latitude, longitude)
-
-                activity.view.mapView?.earthMarker?.apply {
-                    position = latlng
-                    isVisible = true
-                }
 
                 val anchorNode = AnchorNode(anchor)
                 anchorNode.name = name
