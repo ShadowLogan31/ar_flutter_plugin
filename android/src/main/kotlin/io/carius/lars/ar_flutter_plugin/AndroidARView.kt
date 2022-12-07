@@ -93,7 +93,7 @@ internal class AndroidARView(
     private lateinit var onNodeTapListener: com.google.ar.sceneform.Scene.OnPeekTouchListener
 
     private val anchorNode = null
-    private var placed = false; 
+    private var placed = false;
 
     // Method channel handlers
     private val onSessionMethodCall =
