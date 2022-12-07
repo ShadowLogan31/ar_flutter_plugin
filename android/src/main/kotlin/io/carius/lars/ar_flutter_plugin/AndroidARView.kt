@@ -1027,6 +1027,7 @@ internal class AndroidARView(
                     0f,
                     1f,
                 )
+                
                 val anchorNode = AnchorNode(anchor)
                 anchorNode.name = name
                 anchorNode.setParent(arSceneView.scene)

@@ -21,14 +21,6 @@ rootProject.allprojects {
     }
 }
 
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
-}
-
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
@@ -40,7 +32,6 @@ android {
     }
     defaultConfig {
         minSdkVersion 24
-        manifestPlaceholders["localPropertiesManifest"] = localProperties.getProperty('API_KEY')
     }
 }
 
