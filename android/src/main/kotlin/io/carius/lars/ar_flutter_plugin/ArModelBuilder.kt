@@ -9,6 +9,7 @@ import com.google.ar.sceneform.math.Quaternion
 import com.google.ar.sceneform.assets.RenderableSource
 
 import java.util.concurrent.CompletableFuture
+import android.util.Log
 import android.net.Uri
 import android.view.Gravity
 import android.widget.Toast
