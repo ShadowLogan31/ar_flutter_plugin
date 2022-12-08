@@ -188,14 +188,14 @@ class ArModelBuilder {
             .setView(context, linearLayout)
             .build()
             .thenAccept{ renderable ->
+                    renderable.isShadowCaster = false
+                    renderable.isShadowReceiver = false
                     textNode.renderable = renderable
                     textNode.name = name
                     val transform = deserializeMatrix4(transformation)
                     textNode.worldScale = transform.first
                     textNode.worldPosition = transform.second
                     textNode.worldRotation = transform.third
-                    renderable.isShadowCaster = false
-                    renderable.isShadowReceiver = false
                     // renderable.view.findViewById<ImageButton>(R.id.info_button).setOnClickListener {
                     //     // TODO: do smth here
                     // }
