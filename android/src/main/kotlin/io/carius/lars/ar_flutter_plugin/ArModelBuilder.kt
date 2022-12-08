@@ -11,6 +11,7 @@ import com.google.ar.sceneform.assets.RenderableSource
 import java.util.concurrent.CompletableFuture
 import android.util.Log
 import android.net.Uri
+import android.graphics.Color
 import android.view.Gravity
 import android.widget.Toast
 import android.widget.TextView
@@ -173,7 +174,7 @@ class ArModelBuilder {
 
         val linearLayout = LinearLayout(context!!)
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setBackgroundColor(Color.parseColor("#FFFFFF"))
+        linearLayout.setBackgroundColor(Color.WHITE)
         // Create relative layout
         for( i in 0..textData.size - 1 )
         {
