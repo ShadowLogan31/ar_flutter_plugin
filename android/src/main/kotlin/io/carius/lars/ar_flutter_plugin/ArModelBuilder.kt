@@ -177,8 +177,6 @@ class ArModelBuilder {
         {
             val textView = TextView(context!!)
             textView.setText(textData.get(i))
-            textView.setWidth(RelativeLayout.LayoutParams.WRAP_CONTENT);
-            textView.setHeight(RelativeLayout.LayoutParams.WRAP_CONTENT);
             relativeLayout.addView(textView)
         }
 
