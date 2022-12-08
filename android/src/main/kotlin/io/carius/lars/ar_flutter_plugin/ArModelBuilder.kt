@@ -174,9 +174,9 @@ class ArModelBuilder {
         val linearLayout = LinearLayout(context!!)
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         // Create relative layout
-        for( i in 0..textData.size )
+        for( i in 0..textData.size - 1 )
         {
-            val textView = new TextView(context!!)
+            val textView = TextView(context!!)
             textView.setText(textData[i])
             textView.setId(i);
             Log.d("MADETEXTVIEW", "TEXTVIEW: " + textView.text.toString())
