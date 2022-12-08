@@ -14,7 +14,7 @@ import android.net.Uri
 import android.view.Gravity
 import android.widget.Toast
 import android.widget.TextView
-import android.widget.RelativeLayout
+import android.widget.LinearLayout
 import com.google.ar.core.*
 import com.google.ar.sceneform.ArSceneView
 import com.google.ar.sceneform.FrameTime
