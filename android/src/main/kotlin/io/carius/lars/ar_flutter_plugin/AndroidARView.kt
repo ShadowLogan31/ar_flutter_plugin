@@ -851,7 +851,7 @@ internal class AndroidARView(
                 4 -> { // Text provided
                     modelBuilder.makeNodeFromText(viewContext, transformationSystem, objectManagerChannel, enablePans, enableRotation, dict_node["name"] as String, dict_node["uri"] as ArrayList<String>, dict_node["transformation"] as ArrayList<Double>)
                             .thenAccept{node ->
-                                Log.d(TAG, "TEXT: " + dict_node["uri"][0])
+                                Log.d(TAG, "TEXT CREATED")
                                 val anchorName: String? = dict_anchor?.get("name") as? String
                                 val anchorType: Int? = dict_anchor?.get("type") as? Int
                                 if (anchorName != null && anchorType != null) {
