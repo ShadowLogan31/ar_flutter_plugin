@@ -172,15 +172,13 @@ class ArModelBuilder {
         val textNode = CustomTransformableNode(transformationSystem, objectManagerChannel, enablePans, enableRotation)
 
         val linearLayout = LinearLayout(context!!)
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
         // Create relative layout
-        for( i in 0..textData.size )
-        {
             val textView = TextView(context!!)
-            textView.setText(textData[i])
-            textView.setId(i);
+            textView.setText(textData[0])
+            textView.setId(0);
             Log.d("MADETEXTVIEW", "TEXTVIEW: " + textView.text.toString())
             linearLayout.addView(textView)
-        }
 
         Log.d("VIEWRENDERTEXT", "TEXT CREATED: " + textData[0])
 
