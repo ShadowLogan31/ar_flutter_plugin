@@ -174,11 +174,14 @@ class ArModelBuilder {
         val linearLayout = LinearLayout(context!!)
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         // Create relative layout
-            val textView = TextView(context!!)
-            textView.setText(textData[0])
-            textView.setId(0);
+        for( i in 0..textData.size )
+        {
+            val textView = new TextView(context!!)
+            textView.setText(textData[i])
+            textView.setId(i);
             Log.d("MADETEXTVIEW", "TEXTVIEW: " + textView.text.toString())
             linearLayout.addView(textView)
+        }
 
         Log.d("VIEWRENDERTEXT", "TEXT CREATED: " + textData[0])
 
