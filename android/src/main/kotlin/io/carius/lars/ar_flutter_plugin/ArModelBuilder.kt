@@ -181,8 +181,6 @@ class ArModelBuilder {
             relativeLayout.addView(textView)
         }
 
-        Log.d(TAG, "TEXT CREATION: " + textData[0])
-
         ViewRenderable.builder()
             .setView(context, relativeLayout)
             .build()
