@@ -173,7 +173,7 @@ class ArModelBuilder {
 
         val linearLayout = LinearLayout(context!!)
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setBackgroundColor(Color.WHITE)
+        linearLayout.setBackgroundColor(Color.parseColor("#FFFFFF"))
         // Create relative layout
         for( i in 0..textData.size - 1 )
         {
