@@ -99,7 +99,7 @@ internal class AndroidARView(
     private val onSessionMethodCall =
             object : MethodChannel.MethodCallHandler {
                 override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
-                    Log.d(TAG, "AndroidARView onsessionmethodcall reveived a call!")
+                    Log.d(TAG, "AndroidARView onsessionmethodcall received a call!")
                     when (call.method) {
                         "init" -> {
                             initializeARView(call, result)
@@ -169,7 +169,7 @@ internal class AndroidARView(
     private val onObjectMethodCall =
             object : MethodChannel.MethodCallHandler {
                 override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
-                    Log.d(TAG, "AndroidARView onobjectmethodcall reveived a call!")
+                    Log.d(TAG, "AndroidARView onobjectmethodcall received a call!")
                     when (call.method) {
                         "init" -> {
                             // objectManagerChannel.invokeMethod("onError", listOf("ObjectTEST from
@@ -720,7 +720,7 @@ internal class AndroidARView(
 
     private fun addNode(dict_node: HashMap<String, Any>, dict_anchor: HashMap<String, Any>? = null): CompletableFuture<Boolean>{
         val completableFutureSuccess: CompletableFuture<Boolean> = CompletableFuture()
-
+        Log.d(TAG, "NODE ADDING")
         try {
             when (dict_node["type"] as Int) {
                 0 -> { // GLTF2 Model from Flutter asset folder
@@ -849,6 +849,7 @@ internal class AndroidARView(
                             }
                 }
                 4 -> { // Text provided
+                    Log.d(TAG, "MAKING TEXT NODE")
                     modelBuilder.makeNodeFromText(viewContext, transformationSystem, objectManagerChannel, enablePans, enableRotation, dict_node["name"] as String, dict_node["uri"] as ArrayList<String>, dict_node["transformation"] as ArrayList<Double>)
                             .thenAccept{node ->
                                 val anchorName: String? = dict_anchor?.get("name") as? String
@@ -1024,7 +1025,6 @@ internal class AndroidARView(
         return try {
             val latitude = coordinates[0]
             val longitude = coordinates[1]
-            Log.d(TAG, "ARSceneView LATITUDE LOCATION: " + latitude)
             val altitude = coordinates[2]
             val earth: Earth? = arSceneView.session?.earth
             if (earth?.trackingState == TrackingState.TRACKING) {
@@ -1041,7 +1041,6 @@ internal class AndroidARView(
                 val anchorNode = AnchorNode(anchor)
                 anchorNode.name = name
                 anchorNode.setParent(arSceneView.scene)
-                Log.d(TAG, "ANCHORNAME: " + name)
                 true
             } else {
                 Log.d(TAG, "GEOSPATIAL NODE DIDNT WORK")
