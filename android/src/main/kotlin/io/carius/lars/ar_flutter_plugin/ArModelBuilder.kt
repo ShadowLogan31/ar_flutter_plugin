@@ -176,11 +176,11 @@ class ArModelBuilder {
         for( i in 0..textData.size )
         {
             val textView = TextView(context!!)
-            textView.setText(textData.get(i))
+            textView.setText(textData[i])
             relativeLayout.addView(textView)
         }
 
-        Log.d("VIEWRENDERTEXT", "TEXT CREATED: " + textData.get(0))
+        Log.d("VIEWRENDERTEXT", "TEXT CREATED: " + textData[i])
 
         ViewRenderable.builder()
             .setView(context, relativeLayout)
